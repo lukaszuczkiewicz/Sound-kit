@@ -4,20 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Sound kit</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <button id="rec">Record</button>
-    <button id="play">Odtwarzaj</button>
-    <audio src="sounds/clap-808.wav" controls id="clap-808"></audio>
-    <audio src="sounds/clap-analog.wav" controls id="clap-analog"></audio>
-    <audio src="sounds/clap-crushed.wav" controls id="clap-crushed"></audio>
-    <audio src="sounds/clap-fat.wav" controls id="clap-fat"></audio>
-    <audio src="sounds/clap-slapper.wav" controls id="clap-slapper"></audio>
-    <audio src="sounds/clap-tape.wav" controls id="clap-tape"></audio>
-    <audio src="sounds/cowbell-808.wav" controls id="cowbell-808"></audio>
-    <audio src="sounds/crash-808.wav" controls id="crash-808"></audio>
+<body class="body">
+    <div class="container">
+        <h1>Soundkit</h1>
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="play">Play</button>
+    </div>
 
+    <audio class="hide" src="sounds/clap-808.wav" controls id="clap-808"></audio>
+    <audio class="hide" src="sounds/clap-analog.wav" controls id="clap-analog"></audio>
+    <audio class="hide" src="sounds/clap-crushed.wav" controls id="clap-crushed"></audio>
+    <audio class="hide" src="sounds/clap-fat.wav" controls id="clap-fat"></audio>
+    <audio class="hide" src="sounds/clap-slapper.wav" controls id="clap-slapper"></audio>
+    <audio class="hide" src="sounds/clap-tape.wav" controls id="clap-tape"></audio>
+    <audio class="hide" src="sounds/cowbell-808.wav" controls id="cowbell-808"></audio>
+    <audio class="hide" src="sounds/crash-808.wav" controls id="crash-808"></audio>
 
     <script src="soundkit.js"></script>
 </body>

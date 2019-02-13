@@ -5,14 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sound kit</title>
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="body">
     <div class="container">
-        <h1>Soundkit</h1>
-        <button id="start">Start</button>
-        <button id="stop">Stop</button>
-        <button id="play">Play</button>
+        <h1 class="title">Soundkit</h1>
+        <p>Channel:</p>
+
+        <div>
+          <input type="radio" id="channel--1" class="channel" name="channel" value="1"
+                 checked>
+          <label for="channel--1">1</label>
+        </div>
+        
+        <div>
+          <input type="radio" id="channel--2" class="channel" name="channel" value="2">
+          <label for="channel--2">2</label>
+        </div>
+        
+        <div>
+          <input type="radio" id="channel--3" class="channel" name="channel" value="3">
+          <label for="channel--3">3</label>
+        </div>
+
+        <div>
+          <input type="radio" id="channel--4" class="channel" name="channel" value="4">
+          <label for="channel--4">4</label>
+        </div>
+
+        <button id="recordBtn">Start rec</button>
+        <!-- <button id="stop">Stop</button> -->
+        <button id="playBtn">Play</button>
     </div>
 
     <audio class="hide" src="sounds/clap-808.wav" controls id="clap-808"></audio>

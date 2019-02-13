@@ -1,12 +1,3 @@
-document.addEventListener('DOMContentLoaded', appStart);
-
-function appStart() { //enable buttons
-    window.addEventListener('keypress', playSound);
-    document.querySelector('#start').addEventListener('click', startRecording);
-    document.querySelector('#stop').addEventListener('click', stopRecording);
-    document.querySelector('#play').addEventListener('click', playRecording);
-}
-
 const sounds = {
     97: "clap-808",
     115: "clap-analog",
@@ -18,22 +9,58 @@ const sounds = {
     106: "crash-808"
 }
 
-const channel1 = [];
+const channels = [[],[],[],[]];
+let currentChannel = 0;
 let isRecording = false;
-let recStart;
+let recStartTime;
+
+document.addEventListener('DOMContentLoaded', appStart);
+
+function appStart() { //enable buttons
+    window.addEventListener('keypress', playSound);
+    document.querySelector('#recordBtn').addEventListener('click', recordEvent);
+    document.querySelector('#playBtn').addEventListener('click', playRecording);
+    document.querySelectorAll('.channel').forEach(radio => {
+        radio.addEventListener('change', ()=> {
+            currentChannel = parseInt(radio.getAttribute("value")-1);
+        });
+    });
+}
+
+function recordEvent() {
+    //switch to recording/not recording
+    isRecording = !isRecording;
+    
+    const recordBtn = document.querySelector('#recordBtn');
+
+    if (isRecording) { //start recording
+        //clear previous record on current channel
+        channels[currentChannel] = [];
+        //display stop rec btn text
+        recordBtn.textContent = "Stop recording";
+        //save the starting time
+        recStartTime = Date.now();
+
+    } else { //stop recording
+        //display start rec btn text
+        recordBtn.textContent = "Start recording";
+        if (!isChannelEmpty(channels[currentChannel])) {
+            calculateInterval(channels[currentChannel]);
+        }
+    }
+}
 
 function playRecording() {
-    channel = channel1;
-    if (!isChannelEmpty(channel)) {
+    //to do --play each channel t the same time
+    if (!isChannelEmpty(channels[currentChannel])) {
         i = 0; //loop iteration count
-        max = channel.length; //loop max literation count
+        max = channels[currentChannel].length; //loop max literation count
     
         function timeout() {
             setTimeout(() => { 
                 //play the sound
-                console.log(channel[i])
-                channel[i].element.currentTime = 0;
-                channel[i].element.play();
+                channels[currentChannel][i].element.currentTime = 0;
+                channels[currentChannel][i].element.play();
                 i++;
     
                 if (i >= max) {
@@ -42,35 +69,25 @@ function playRecording() {
     
                 timeout(); //recursion
     
-            }, channel[i].time);
+            }, channels[currentChannel][i].time);
         }
         timeout();
     }
 }
 
-function startRecording(e) {
-    isRecording = true;
-    recStart = Date.now(); //save the starting time
-    //block start btn
-}
-
-function stopRecording(e) {
-    isRecording = false;
-    //block stop btn (also block it initially)
-    if (!isChannelEmpty(channel1)) {
-        calculateInterval(channel1);
-    }
-}
-
 function playSound(e) {
-    //to do --- ignore if user pressed not binded key
+
     const audioName = sounds[e.charCode]; // load sound code
+    if (!audioName) {
+        //ignore if user pressed an unbinded key
+        return;
+    }
     audioDOM = document.querySelector(`#${audioName}`); // get DOM audio element
     audioDOM.currentTime = 0;
     audioDOM.play();
 
     if (isRecording) {
-        channel1.push({ //saving data to a channel
+        channels[currentChannel].push({ //saving data to a channel
             element: audioDOM,
             time: Date.now()
         });
@@ -78,15 +95,16 @@ function playSound(e) {
 }
 
 function calculateInterval(channel) {
+    //calculate time inteval between two sounds
     for (let i = channel.length - 1; i > 0; i--) {
-        //calculate time inteval between two sounds
         channel[i].time -= channel[i - 1].time;
     }
-    channel[0].time -= recStart; //to improve what if the channel is empty?
+    channel[0].time -= recStartTime;
 }
-//add 3,2,1 counting making a delay from pressing recording to starting recording
 
 
 function isChannelEmpty(channel) {
     return (!channel.length);
 }
+
+//add 3,2,1 counting making a delay from pressing recording to starting recording

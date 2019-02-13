@@ -5,19 +5,25 @@
 }
 .body {
     background-color: rgb(30, 34, 34);
+    /* background: url(img/bg.jpg); */
+    font-family: 'Righteous';
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
 }
-.hide {
-    display: none;
-}
 .container {
-    background: rgb(30, 57, 65);
-    min-width: 1000px;
-    padding: 10vw;
     display: flex;
     justify-content: center;
+    min-width: 1000px;
+    padding: 10vw;
+    background: rgb(30, 57, 65);
+    border-radius: 10px;
+}
+.title {
+    font-size: 4rem;
+}
+.hide {
+    display: none;
 }

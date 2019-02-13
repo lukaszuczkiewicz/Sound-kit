@@ -19,7 +19,11 @@ document.addEventListener('DOMContentLoaded', appStart);
 function appStart() { //enable buttons
     window.addEventListener('keypress', playSound);
     document.querySelector('#recordBtn').addEventListener('click', recordEvent);
-    document.querySelector('#playBtn').addEventListener('click', playRecording);
+    document.querySelector('#playBtn').addEventListener('click', ()=> {
+        // console.log(currentChannel);
+        playRecording(channels[currentChannel]);
+    });
+    document.querySelector('#playAllBtn').addEventListener('click', playAllRecordings);
     document.querySelectorAll('.channel').forEach(radio => {
         radio.addEventListener('change', ()=> {
             currentChannel = parseInt(radio.getAttribute("value")-1);
@@ -50,17 +54,19 @@ function recordEvent() {
     }
 }
 
-function playRecording() {
+function playRecording(channel) {
     //to do --play each channel t the same time
-    if (!isChannelEmpty(channels[currentChannel])) {
-        i = 0; //loop iteration count
-        max = channels[currentChannel].length; //loop max literation count
+    console.log(channel);
+
+    if (!isChannelEmpty(channel)) {
+        let i = 0; //loop iteration count
+        const max = channel.length; //loop max literation count
     
         function timeout() {
             setTimeout(() => { 
                 //play the sound
-                channels[currentChannel][i].element.currentTime = 0;
-                channels[currentChannel][i].element.play();
+                channel[i].element.currentTime = 0;
+                channel[i].element.play();
                 i++;
     
                 if (i >= max) {
@@ -69,10 +75,15 @@ function playRecording() {
     
                 timeout(); //recursion
     
-            }, channels[currentChannel][i].time);
+            }, channel[i].time);
         }
         timeout();
     }
+}
+function playAllRecordings() {
+    channels.forEach((channel, i) => {
+        playRecording(channels[i]);
+    });
 }
 
 function playSound(e) {
@@ -95,7 +106,7 @@ function playSound(e) {
 }
 
 function calculateInterval(channel) {
-    //calculate time inteval between two sounds
+    //calculate time interval between two sounds
     for (let i = channel.length - 1; i > 0; i--) {
         channel[i].time -= channel[i - 1].time;
     }

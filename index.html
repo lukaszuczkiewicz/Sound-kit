@@ -11,43 +11,63 @@
 <body class="body">
     <div class="container">
         <h1 class="title">Soundkit</h1>
-        <p>Channel:</p>
+        <div class="channels__container">
+            <p class="channels__title">Channels:</p>
 
-        <div>
-          <input type="radio" id="channel--1" class="channel" name="channel" value="1"
-                 checked>
-          <label for="channel--1">1</label>
-        </div>
-        
-        <div>
-          <input type="radio" id="channel--2" class="channel" name="channel" value="2">
-          <label for="channel--2">2</label>
-        </div>
-        
-        <div>
-          <input type="radio" id="channel--3" class="channel" name="channel" value="3">
-          <label for="channel--3">3</label>
-        </div>
-
-        <div>
-          <input type="radio" id="channel--4" class="channel" name="channel" value="4">
-          <label for="channel--4">4</label>
+            <div>
+              <input type="radio" id="channel--1" class="channel" name="channel" value="1"
+                     checked>
+              <label for="channel--1">1</label>
+            </div>
+            
+            <div>
+              <input type="radio" id="channel--2" class="channel" name="channel" value="2">
+              <label for="channel--2">2</label>
+            </div>
+            
+            <div>
+              <input type="radio" id="channel--3" class="channel" name="channel" value="3">
+              <label for="channel--3">3</label>
+            </div>
+    
+            <div>
+              <input type="radio" id="channel--4" class="channel" name="channel" value="4">
+              <label for="channel--4">4</label>
+            </div>
         </div>
 
         <button id="recordBtn">Start rec</button>
-        <!-- <button id="stop">Stop</button> -->
         <button id="playBtn">Play channel</button>
         <button id="playAllBtn">Play everything</button>
+        <footer class="footer"><span>All samples from </span><a href="http://99sounds.org/" target="_blank" >99sounds.org</a></footer>
     </div>
 
-    <audio class="hide" src="sounds/clap-808.wav" controls id="clap-808"></audio>
-    <audio class="hide" src="sounds/clap-analog.wav" controls id="clap-analog"></audio>
-    <audio class="hide" src="sounds/clap-crushed.wav" controls id="clap-crushed"></audio>
-    <audio class="hide" src="sounds/clap-fat.wav" controls id="clap-fat"></audio>
-    <audio class="hide" src="sounds/clap-slapper.wav" controls id="clap-slapper"></audio>
-    <audio class="hide" src="sounds/clap-tape.wav" controls id="clap-tape"></audio>
-    <audio class="hide" src="sounds/cowbell-808.wav" controls id="cowbell-808"></audio>
-    <audio class="hide" src="sounds/crash-808.wav" controls id="crash-808"></audio>
+    <audio class="hide" data-code="97" src="sounds/clap-808.wav" controls></audio>
+    <audio class="hide" data-code="98" src="sounds/clap-analog.wav" controls></audio>
+    <audio class="hide" data-code="99" src="sounds/clap-crushed.wav" controls></audio>
+    <audio class="hide" data-code="100" src="sounds/clap-fat.wav" controls></audio>
+    <audio class="hide" data-code="101" src="sounds/clap-slapper.wav" controls></audio>
+    <audio class="hide" data-code="102" src="sounds/clap-tape.wav" controls></audio>
+    <audio class="hide" data-code="103" src="sounds/cowbell-808.wav" controls></audio>
+    <audio class="hide" data-code="104" src="sounds/crash-808.wav" controls></audio>
+    <audio class="hide" data-code="105" src="sounds/crash-acoustic.wav" controls></audio>
+    <audio class="hide" data-code="106" src="sounds/crash-noise.wav" controls></audio>
+    <audio class="hide" data-code="107" src="sounds/crash-tape.wav" controls></audio>
+    <audio class="hide" data-code="108" src="sounds/hihat-acoustic01.wav" controls></audio>
+    <audio class="hide" data-code="109" src="sounds/hihat-acoustic02.wav" controls></audio>
+    <audio class="hide" data-code="110" src="sounds/kick-808.wav" controls></audio>
+    <audio class="hide" data-code="111" src="sounds/kick-acoustic01.wav" controls></audio>
+    <audio class="hide" data-code="112" src="sounds/kick-acoustic02.wav" controls></audio>
+    <audio class="hide" data-code="113" src="sounds/kick-cultivator.wav" controls></audio>
+    <audio class="hide" data-code="114" src="sounds/kick-deep.wav" controls></audio>
+    <audio class="hide" data-code="115" src="sounds/kick-dry.wav" controls></audio>
+    <audio class="hide" data-code="116" src="sounds/openhat-analog.wav" controls></audio>
+    <audio class="hide" data-code="117" src="sounds/perc-hollow.wav" controls></audio>
+    <audio class="hide" data-code="118" src="sounds/ride-acoustic01.wav" controls></audio>
+    <audio class="hide" data-code="119" src="sounds/ride-acoustic02.wav" controls></audio>
+    <audio class="hide" data-code="120" src="sounds/shaker-analog.wav" controls></audio>
+    <audio class="hide" data-code="121" src="sounds/snare-808.wav" controls></audio>
+    <audio class="hide" data-code="122" src="sounds/snare-analog.wav" controls></audio>
 
     <script src="soundkit.js"></script>
 </body>

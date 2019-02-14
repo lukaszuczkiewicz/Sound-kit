@@ -38,6 +38,11 @@
 .channels__title {
     margin-bottom: 1rem;
 }
+.progress-bar {
+    width: 5rem;
+    height: 1rem;
+    background-color: #fff;
+}
 .hide {
     display: none;
 }

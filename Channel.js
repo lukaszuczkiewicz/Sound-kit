@@ -17,14 +17,14 @@ export default class Channel {
         for (let i = this.sounds.length - 1; i > 0; i--) {
             this.sounds[i].interval = this.sounds[i].time - this.sounds[i - 1].time;
         }
-        //calculate time interval before first sound
+        //calculate time interval before the first sound
         this.sounds[0].interval = this.sounds[0].time - this.startRecTime;
-        //calculate time interval after last sound
+        //calculate time interval after the last sound
         this.endInterval = this.stopRecTime - this.sounds[this.sounds.length - 1].time;
     }
 
     getTotalTimeInSeconds() {
-        return msToSeconds(this.recStopTime - this.recStartTime);
+        return msToSeconds(this.stopRecTime - this.startRecTime);
     }
 
     isChannelEmpty() {
@@ -38,7 +38,7 @@ export default class Channel {
         document.querySelector(`.progress-bar--${this.number+1}`).classList.remove('progress-bar-long');
     }
     displayTotalTime() {
-        const totalTimeEl = document.querySelector(`.channel--${number+1}__total`);
+        const totalTimeEl = document.querySelector(`.channel--${this.number+1}__total`);
         // totalTimeEl.textContent = getTotalTime();
         totalTimeEl.textContent = `${this.getTotalTimeInSeconds()} s`;
     }

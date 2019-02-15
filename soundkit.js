@@ -116,6 +116,8 @@ function recordEvent() {
             channels[currentChannelNum].stopRecTime = Date.now();
 
             channels[currentChannelNum].calculateIntervals();
+            // display time length of the record
+            channels[currentChannelNum].displayTotalTime();
         }
     }
 }

@@ -1,13 +1,15 @@
+import Channel from './Channel.js';
+
+//create channels
 const channels = [
-    [],
-    [],
-    [],
-    []
+    new Channel(1),
+    new Channel(2),
+    new Channel(3),
+    new Channel(4)
 ];
-let currentChannel = 0; //index of the current channel
+
+let currentChannelNum = 0; //index of the current channel
 let isRecording = false;
-let recStartTime;
-let recStopTime;
 
 
 document.addEventListener('DOMContentLoaded', appStart);
@@ -17,7 +19,7 @@ function appStart() { //enable buttons
     document.querySelector('#recordBtn').addEventListener('click', recordEvent);
     document.querySelector('#playBtn').addEventListener('click', () => {
         if (!isRecording) {
-            playRecording(channels[currentChannel]);
+            playRecording(currentChannelNum);
         }
     });
     document.querySelector('#playAllBtn').addEventListener('click', () => {
@@ -27,115 +29,93 @@ function appStart() { //enable buttons
     });
     document.querySelectorAll('.channel').forEach(radio => {
         radio.addEventListener('change', () => {
-            currentChannel = parseInt(radio.getAttribute("value") - 1);
+            currentChannelNum = parseInt(radio.getAttribute("value") - 1);
         });
     });
 }
 
-function calculateInterval(channel) {
-    //calculate time interval between two sounds
-    for (let i = channel.length - 1; i > 0; i--) {
-        channel[i].interval = channel[i].time - channel[i - 1].time;
-    }
-    channel[0].interval = channel[0].time - recStartTime;
-}
-
-function getTotalTime() {
-    return recStopTime - recStartTime;
-}
-
-function isChannelEmpty(channel) {
-    return (!channel.length);
-}
-
-function msToSeconds(ms) {
-    return (ms/1000).toFixed(2);
-}
-
 function playAllNotCurrent() {
     channels.forEach((channel, i) => {
-        if (currentChannel !== i) {
-            playRecording(channels[i]);
+        if (currentChannelNum !== i) {
+            playRecording(i);
         }
     });
 }
 
 function playAllRecordings() {
     channels.forEach((channel, i) => {
-        playRecording(channels[i]);
+        playRecording(i);
     });
 }
 
 function playSound(e) {
-    audioDOM = document.querySelector(`[data-code="${e.charCode}"]`); // get DOM audio element
+    const audioDOM = document.querySelector(`[data-code="${e.charCode}"]`); // get DOM audio element
     if (!audioDOM) { //there is no element with such a code
         return;
     }
-
+    //play sound
     audioDOM.currentTime = 0;
     audioDOM.play();
 
     if (isRecording) {
-        channels[currentChannel].push({ //saving data to a channel
-            element: audioDOM,
-            time: Date.now(),
-            interval: null
-        });
+        //add sound to the current channel
+        channels[currentChannelNum].addSound(audioDOM, Date.now());
     }
 }
 
-function playRecording(channel) {
-    if (!isChannelEmpty(channel)) {
+function playRecording(channelNum) {
+    // const channel = channels[channelNum];
+    if (!channels[channelNum].isChannelEmpty()) {
+        // turn on progress bar animation
+        channels[channelNum].animateProgressBar();
+
         let i = 0; //loop iteration count
-        const max = channel.length; //loop max literation count
+        const max = channels[channelNum].sounds.length; //loop max literation count
 
         function timeout() {
             setTimeout(() => {
                 //play the sound
-                channel[i].element.currentTime = 0;
-                channel[i].element.play();
+                channels[channelNum].sounds[i].element.currentTime = 0;
+                channels[channelNum].sounds[i].element.play();
                 i++;
 
-                if (i >= max) {
-                    return; //there are no more sounds
+                if (i >= max) { //there are no more sounds
+                    channels[channelNum].stopAnimateProgressBar();
+                    return;
                 }
 
                 timeout(); //recursion
 
-            }, channel[i].interval);
+            }, channels[channelNum].sounds[i].interval);
         }
         timeout();
     }
 }
 
 function recordEvent() {
+    const recordBtn = document.querySelector('#recordBtn');
+
     //switch to recording/not recording
     isRecording = !isRecording;
 
-    const recordBtn = document.querySelector('#recordBtn');
-
     if (isRecording) { //start recording
         //clear previous record on current channel
-        channels[currentChannel] = [];
+        channels[currentChannelNum] = new Channel(currentChannelNum);
+        //save the starting time
+        channels[currentChannelNum].startRecTime = Date.now();
         //display stop rec btn text
         recordBtn.textContent = "Stop recording";
-        //save the starting time
-        recStartTime = Date.now();
         //play other channels in a background
         playAllNotCurrent();
 
     } else { //stop recording
         //display start rec btn text
         recordBtn.textContent = "Start recording";
-        if (!isChannelEmpty(channels[currentChannel])) {
-            //save the starting time
-            recStopTime = Date.now();
-            //display total time
-            const totalTimeEl = document.querySelector(`.channel--${currentChannel+1}__total`);
-            // totalTimeEl.textContent = getTotalTime();
-            totalTimeEl.textContent = `${msToSeconds(getTotalTime())} s`;
+        if (!channels[currentChannelNum].isChannelEmpty()) {
+            //save the finishing time
+            channels[currentChannelNum].stopRecTime = Date.now();
 
-            calculateInterval(channels[currentChannel]);
+            channels[currentChannelNum].calculateIntervals();
         }
     }
 }

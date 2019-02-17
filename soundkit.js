@@ -80,7 +80,7 @@ function playRecording(channelNum) {
                 i++;
 
                 if (i >= max) { //there are no more sounds
-                    channels[channelNum].stopAnimateProgressBar();
+                   // channels[channelNum].stopAnimateProgressBar();
                     return;
                 }
 

@@ -1,18 +1,37 @@
 import Sound from './Sound.js';
-import { msToSeconds } from './other.js'
+import { msToSeconds} from './other.js'
 
 export default class Channel {
     constructor(number) {
-        this.number = number;
+        this.number = number; //from 0 to 3
         this.startRecTime;
         this.stopRecTime;
         this.sounds = [];
         this.endInterval;
+        this.progressBar = document.getElementById(`progress--${this.number+1}`);
     }
 
     addSound(domElement, time) {
         this.sounds.push(new Sound(domElement, time));
     }
+
+    animateProgressBar() {
+        const startPlayDate = Date.now();
+        const totalTime = this.getTotalTime();
+        const progressBar = this.progressBar;
+        
+        function reload() {
+            let percentage = 100 * (Date.now() - startPlayDate)/totalTime;
+            debugger;
+            
+            if (percentage <= 100) {
+                progressBar.value = percentage;
+                requestAnimationFrame(reload);
+            }
+        }  
+        requestAnimationFrame(reload);
+    }
+
     calculateIntervals() {
         //calculate time interval between two sounds
         for (let i = this.sounds.length - 1; i > 0; i--) {
@@ -23,22 +42,17 @@ export default class Channel {
         //calculate time interval after the last sound
         this.endInterval = this.stopRecTime - this.sounds[this.sounds.length - 1].time;
     }
-    getTotalTimeInSeconds() {
-        return msToSeconds(this.stopRecTime - this.startRecTime);
-    }
+
     isChannelEmpty() {
         return (!this.sounds.length);
     }
-    animateProgressBar() {
-        document.querySelector(`.progress-bar--${this.number+1}`).classList.add(`progress-bar-long--${this.number+1}`);
-        document.querySelector(`.progress-bar-long--${this.number+1}`).style.transition = `transition: width linear ${this.getTotalTimeInSeconds()}s`;
-    }
-    stopAnimateProgressBar() {
-        document.querySelector(`.progress-bar--${this.number+1}`).classList.remove(`progress-bar-long--${this.number+1}`);
-    }
+    
     displayTotalTime() {
         const totalTimeEl = document.querySelector(`.channel--${this.number+1}__total`);
-        // totalTimeEl.textContent = getTotalTime();
-        totalTimeEl.textContent = `${this.getTotalTimeInSeconds()} s`;
+        totalTimeEl.textContent = `${msToSeconds(this.getTotalTime())} s`;
+    }
+
+    getTotalTime() {
+        return this.stopRecTime - this.startRecTime;
     }
 }

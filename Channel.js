@@ -9,6 +9,7 @@ export default class Channel {
         this.sounds = [];
         this.endInterval;
     }
+
     addSound(domElement, time) {
         this.sounds.push(new Sound(domElement, time));
     }
@@ -22,20 +23,18 @@ export default class Channel {
         //calculate time interval after the last sound
         this.endInterval = this.stopRecTime - this.sounds[this.sounds.length - 1].time;
     }
-
     getTotalTimeInSeconds() {
         return msToSeconds(this.stopRecTime - this.startRecTime);
     }
-
     isChannelEmpty() {
         return (!this.sounds.length);
     }
     animateProgressBar() {
-        document.querySelector(`.progress-bar--${this.number+1}`).classList.add('progress-bar-long');
+        document.querySelector(`.progress-bar--${this.number+1}`).classList.add(`progress-bar-long--${this.number+1}`);
+        document.querySelector(`.progress-bar-long--${this.number+1}`).style.transition = `transition: width linear ${this.getTotalTimeInSeconds()}s`;
     }
-    
     stopAnimateProgressBar() {
-        document.querySelector(`.progress-bar--${this.number+1}`).classList.remove('progress-bar-long');
+        document.querySelector(`.progress-bar--${this.number+1}`).classList.remove(`progress-bar-long--${this.number+1}`);
     }
     displayTotalTime() {
         const totalTimeEl = document.querySelector(`.channel--${this.number+1}__total`);

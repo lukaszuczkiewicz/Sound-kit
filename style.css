@@ -38,15 +38,8 @@
 .channels__title {
     margin-bottom: 1rem;
 }
-.progress-bar {
-    width: 0rem;
-    height: 1rem;
-    background-color: #fff;
-}
-.progress-bar-long {
-    width: 8rem;
-    transition: width linear 5s;
-}
+
+
 .hide {
     display: none;
 }

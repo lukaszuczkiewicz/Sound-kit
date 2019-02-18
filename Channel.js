@@ -22,12 +22,12 @@ export default class Channel {
         
         function reload() {
             let percentage = 100 * (Date.now() - startPlayDate)/totalTime;
-            debugger;
             
             if (percentage <= 100) {
-                progressBar.value = percentage;
                 requestAnimationFrame(reload);
             }
+            //display bar's progress
+            progressBar.value = percentage;
         }  
         requestAnimationFrame(reload);
     }
@@ -48,7 +48,7 @@ export default class Channel {
     }
     
     displayTotalTime() {
-        const totalTimeEl = document.querySelector(`.channel--${this.number+1}__total`);
+        const totalTimeEl = document.querySelector(`.channels__time--${this.number+1}`);
         totalTimeEl.textContent = `${msToSeconds(this.getTotalTime())} s`;
     }
 

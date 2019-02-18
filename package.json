@@ -1,0 +1,24 @@
+{
+  "name": "sound-kit",
+  "version": "1.0.0",
+  "description": "music app",
+  "main": "soundkit.js",
+  "scripts": {
+    "devserver": "live-server --browser=chrome",
+    "watch:sass": "node-sass ./main.scss ./style.css -w",
+    "compile:sass": "node-sass ./main.scss ./style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LukaszJuggler/Sound-kit.git"
+  },
+  "author": "ł. uczkiewicz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LukaszJuggler/Sound-kit/issues"
+  },
+  "homepage": "https://github.com/LukaszJuggler/Sound-kit#readme",
+  "devDependencies": {
+    "node-sass": "^4.11.0"
+  }
+}

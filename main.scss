@@ -1,0 +1,95 @@
+// VARIABLES
+$color1: #B8336A;
+$color2: #424040;
+$color3: #0A0908;
+$color4: #F4FFF8;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    line-height: 1.2;
+}
+a, :link, :visited {
+    color: white;
+    text-decoration: none;
+}
+.body {
+    background: url(img/bg.jpg);
+    background-size: cover;
+    font-family: 'Lato', sans-serif;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.container {
+    min-width: 50vw;
+    background: rgba($color2, 0.96);
+    border-radius: 10px;
+    padding: 1rem;
+}
+.title {
+    font-family: 'Righteous';
+    color: $color1;
+    font-size: 5rem;
+}
+.row {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.channels {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+
+    &__container {
+        padding-top: .5rem;
+    }
+    &__title {
+        margin-bottom: 1rem;
+    }
+    &__label {
+        display: inline-block;
+        width: 1rem
+    }
+    &__radio:checked + &__label,
+    &__radio:checked ~ &__time {
+        color: $color1;
+    }
+    &__time {
+        width: 5rem;
+    }
+}
+
+.buttons {
+    color: $color4;
+
+    &__btn {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 5px;
+        outline: none;
+        border: 2px solid $color3;
+    }
+}
+.footer {
+    position: absolute;
+    bottom: .5rem;
+    right: .8rem;
+    text-align: end;
+    font-size: .8rem;
+}
+.link {
+    color: $color1;
+}
+.progress {
+    border: transparent;
+    width: 7rem;
+}
+
+.hide {
+    display: none;
+}

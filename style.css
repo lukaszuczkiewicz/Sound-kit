@@ -52,13 +52,21 @@ a, :link, :visited {
     width: 5rem; }
 
 .buttons {
-  color: #F4FFF8; }
+  color: #F4FFF8;
+  display: grid;
+  grid-template-columns: repeat(3, 6rem); }
   .buttons__btn {
     width: 5rem;
     height: 5rem;
     border-radius: 5px;
     outline: none;
     border: 2px solid #0A0908; }
+  .buttons__btn--rec {
+    grid-column: 1 / 2; }
+  .buttons__btn--play {
+    grid-column: 2 / 3; }
+  .buttons__btn--play-all {
+    grid-column: 3 / 4; }
 
 .footer {
   position: absolute;

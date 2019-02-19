@@ -66,6 +66,8 @@ a, :link, :visited {
 
 .buttons {
     color: $color4;
+    display: grid;
+    grid-template-columns: repeat(3, 6rem);
 
     &__btn {
         width: 5rem;
@@ -73,6 +75,15 @@ a, :link, :visited {
         border-radius: 5px;
         outline: none;
         border: 2px solid $color3;
+    }
+    &__btn--rec {
+        grid-column: 1 / 2;
+    }
+    &__btn--play {
+        grid-column: 2 / 3;
+    }
+    &__btn--play-all {
+        grid-column: 3 / 4;
     }
 }
 .footer {

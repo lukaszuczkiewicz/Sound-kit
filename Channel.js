@@ -1,13 +1,12 @@
 import Sound from './Sound.js';
 import { msToSeconds} from './other.js'
 
-export default class Channel {
+export class Channel {
     constructor(number) {
         this.number = number; //from 0 to 3
         this.startRecTime;
         this.stopRecTime;
         this.sounds = [];
-        this.endInterval;
         this.progressBar = document.getElementById(`progress--${this.number+1}`);
     }
 
@@ -40,7 +39,8 @@ export default class Channel {
         //calculate time interval before the first sound
         this.sounds[0].interval = this.sounds[0].time - this.startRecTime;
         //calculate time interval after the last sound
-        this.endInterval = this.stopRecTime - this.sounds[this.sounds.length - 1].time;
+        const endInterval = this.stopRecTime - this.sounds[this.sounds.length - 1].time;
+        this.addSound(null, endInterval);
     }
 
     isChannelEmpty() {
@@ -49,10 +49,26 @@ export default class Channel {
     
     displayTotalTime() {
         const totalTimeEl = document.querySelector(`.channels__time--${this.number+1}`);
-        totalTimeEl.textContent = `${msToSeconds(this.getTotalTime())} s`;
+        if (this.isChannelEmpty()) {
+            totalTimeEl.textContent = 'empty';
+        } else {
+            totalTimeEl.textContent = `${msToSeconds(this.getTotalTime())} s`;
+        }
     }
 
     getTotalTime() {
         return this.stopRecTime - this.startRecTime;
     }
+}
+
+
+export function areAllChannelsEmpty(channels) {
+    let isEmpty = true; 
+    channels.forEach(c => {
+        if (!c.isChannelEmpty()) {
+            isEmpty = false;
+        }
+    });
+    // debugger;
+    return isEmpty;
 }

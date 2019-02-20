@@ -54,11 +54,20 @@ function playAllNotCurrent() {
 }
 
 function playAllChannels() {
+    isPlaying = true;
+    changeBtnState();
+
+    const promises = []
     channels.forEach((c, i) => {
         if (!c.isChannelEmpty()) {
-            c.play();
+            promises.push(c.play());
         }
     });
+    Promise.all(promises)
+    .then(() => {
+        isPlaying = false;
+        changeBtnState();
+    })
 }
 
 function playSound(e) {

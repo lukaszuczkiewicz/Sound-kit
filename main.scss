@@ -4,12 +4,16 @@ $color2: #424040;
 $color3: #0A0908;
 $color4: #F4FFF8;
 $color5: #c8ccca;
+$color5-darker: #a6aaa8;
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     line-height: 1.2;
+}
+html {
+    font-size: 1rem;
 }
 a, :link, :visited {
     color: white;
@@ -18,7 +22,9 @@ a, :link, :visited {
 .body {
     background: url(img/bg.jpg);
     background-size: cover;
-    font-family: 'Lato', sans-serif;
+    // font-family: 'Lato', sans-serif;
+    text-transform: uppercase;
+    font-family: 'Righteous';
     color: white;
     display: flex;
     align-items: center;
@@ -26,21 +32,23 @@ a, :link, :visited {
     height: 100vh;
 }
 .container {
-    min-width: 50vw;
     background: rgba($color2, 0.96);
     border-radius: 10px;
-    padding: 1rem;
+    padding: 2rem;
+    z-index: 10;
 }
 .title {
     font-family: 'Righteous';
     color: $color1;
     font-size: 5rem;
+    line-height: .8;
 }
 .row {
+    width: 35rem;
     margin-top: 2rem;
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-end;
 }
 .channels {
     grid-column: 2 / 3;
@@ -68,14 +76,26 @@ a, :link, :visited {
 .buttons {
     color: $color4;
     display: grid;
-    grid-template-columns: repeat(3, 6rem);
-
+    grid-template-columns: repeat(3, 5rem);
+    grid-gap: 1rem;
+    
     &__btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: .5rem;
         width: 5rem;
         height: 5rem;
         border-radius: 5px;
         outline: none;
         border: 2px solid $color3;
+        background-color: $color5;
+        transition: all .3s;
+        cursor: pointer;
+
+        &:hover{
+            background-color: $color5-darker;
+        }
     }
     &__btn--rec {
         grid-column: 1 / 2;
@@ -86,16 +106,28 @@ a, :link, :visited {
     &__btn--play-all {
         grid-column: 3 / 4;
     }
+    &__svg {
+        width: 50%;
+        height: 50%;
+        fill: $color1;
+        transition: all .3s;
+    }
+    &__text {
+        text-transform: uppercase;
+        font-family: 'Righteous';
+    }
 }
 .footer {
     position: absolute;
     bottom: .5rem;
     right: .8rem;
     text-align: end;
+    z-index: 5;
     font-size: .8rem;
-}
-.link {
-    color: $color1;
+
+    .link {
+        color: $color1;
+    }
 }
 .progress {
     border: transparent;

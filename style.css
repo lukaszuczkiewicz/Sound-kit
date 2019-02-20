@@ -4,6 +4,9 @@
   box-sizing: border-box;
   line-height: 1.2; }
 
+html {
+  font-size: 1rem; }
+
 a, :link, :visited {
   color: white;
   text-decoration: none; }
@@ -11,7 +14,8 @@ a, :link, :visited {
 .body {
   background: url(img/bg.jpg);
   background-size: cover;
-  font-family: 'Lato', sans-serif;
+  text-transform: uppercase;
+  font-family: 'Righteous';
   color: white;
   display: flex;
   align-items: center;
@@ -19,21 +23,23 @@ a, :link, :visited {
   height: 100vh; }
 
 .container {
-  min-width: 50vw;
   background: rgba(66, 64, 64, 0.96);
   border-radius: 10px;
-  padding: 1rem; }
+  padding: 2rem;
+  z-index: 10; }
 
 .title {
   font-family: 'Righteous';
   color: #B8336A;
-  font-size: 5rem; }
+  font-size: 5rem;
+  line-height: .8; }
 
 .row {
+  width: 35rem;
   margin-top: 2rem;
   display: flex;
-  justify-content: space-evenly;
-  align-items: center; }
+  justify-content: space-between;
+  align-items: flex-end; }
 
 .channels {
   grid-column: 2 / 3;
@@ -54,29 +60,47 @@ a, :link, :visited {
 .buttons {
   color: #F4FFF8;
   display: grid;
-  grid-template-columns: repeat(3, 6rem); }
+  grid-template-columns: repeat(3, 5rem);
+  grid-gap: 1rem; }
   .buttons__btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: .5rem;
     width: 5rem;
     height: 5rem;
     border-radius: 5px;
     outline: none;
-    border: 2px solid #0A0908; }
+    border: 2px solid #0A0908;
+    background-color: #c8ccca;
+    transition: all .3s;
+    cursor: pointer; }
+    .buttons__btn:hover {
+      background-color: #a6aaa8; }
   .buttons__btn--rec {
     grid-column: 1 / 2; }
   .buttons__btn--play {
     grid-column: 2 / 3; }
   .buttons__btn--play-all {
     grid-column: 3 / 4; }
+  .buttons__svg {
+    width: 50%;
+    height: 50%;
+    fill: #B8336A;
+    transition: all .3s; }
+  .buttons__text {
+    text-transform: uppercase;
+    font-family: 'Righteous'; }
 
 .footer {
   position: absolute;
   bottom: .5rem;
   right: .8rem;
   text-align: end;
+  z-index: 5;
   font-size: .8rem; }
-
-.link {
-  color: #B8336A; }
+  .footer .link {
+    color: #B8336A; }
 
 .progress {
   border: transparent;

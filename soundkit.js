@@ -146,8 +146,8 @@ function changeBtnState() {
     } else {
         playAllBtn.classList.remove('hide');
     }
-    console.log(`isplaying: ${isPlaying}, isRecording: ${isRecording}, areAllChannelsEmpty: ${areAllChannelsEmpty(channels)}`);
-    debugger;
+    // console.log(`isplaying: ${isPlaying}, isRecording: ${isRecording}, areAllChannelsEmpty: ${areAllChannelsEmpty(channels)}`);
+    // debugger;
 }
 
 document.addEventListener('DOMContentLoaded', appStart);

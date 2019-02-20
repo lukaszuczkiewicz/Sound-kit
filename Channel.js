@@ -1,5 +1,8 @@
 import Sound from './Sound.js';
-import { msToSeconds, wait} from './other.js';
+import {
+    msToSeconds,
+    wait
+} from './other.js';
 
 export class Channel {
     constructor(number) {
@@ -18,16 +21,16 @@ export class Channel {
         const startPlayDate = Date.now();
         const totalTime = this.getTotalTime();
         const progressBar = this.progressBar;
-        
+
         function reload() {
-            let percentage = 100 * (Date.now() - startPlayDate)/totalTime;
-            
+            let percentage = 100 * (Date.now() - startPlayDate) / totalTime;
+
             if (percentage <= 100) {
                 requestAnimationFrame(reload);
             }
             //display bar's progress
             progressBar.value = percentage;
-        }  
+        }
         requestAnimationFrame(reload);
     }
 
@@ -40,9 +43,9 @@ export class Channel {
         this.sounds[0].interval = this.sounds[0].time - this.startRecTime;
         //calculate time interval after the last sound
         const endInterval = this.stopRecTime - this.sounds[this.sounds.length - 1].time;
-        this.addSound(null, endInterval);
+        this.sounds.push(new Sound(null, null, endInterval));
     }
-    
+
     displayTotalTime() {
         const totalTimeEl = document.querySelector(`.channels__time--${this.number+1}`);
         if (this.isChannelEmpty()) {
@@ -51,7 +54,7 @@ export class Channel {
             totalTimeEl.textContent = `${msToSeconds(this.getTotalTime())} s`;
         }
     }
-    
+
     getTotalTime() {
         return this.stopRecTime - this.startRecTime;
     }
@@ -63,17 +66,23 @@ export class Channel {
     async play() {
         this.animateProgressBar();
 
-        for (let i = 0; i < this.sounds.length-1; i++) {
+        for (let i = 0; i < this.sounds.length; i++) {
             await wait(this.sounds[i].interval);
-            this.sounds[i].element.currentTime = 0;
-            this.sounds[i].element.play();
+            if (this.sounds[i].element) {
+                this.sounds[i].element.currentTime = 0;
+                this.sounds[i].element.play();
+            }
+            console.log('boom');
         }
-        console.log('end');
+        console.log(this.sounds)
+        // await wait(this.sounds[this.sounds.length-1].interval);
+        // await wait(3000);
+        // console.log(this.sounds[this.sounds.length-1].interval);
     }
 }
 
 export function areAllChannelsEmpty(channels) {
-    let isEmpty = true; 
+    let isEmpty = true;
     channels.forEach(c => {
         if (!c.isChannelEmpty()) {
             isEmpty = false;

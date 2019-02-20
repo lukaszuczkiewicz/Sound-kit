@@ -27,8 +27,12 @@ let isPlaying = false;
 function appStart() { //enable buttons
     window.addEventListener('keypress', playSound);
     recBtn.addEventListener('click', recordEvent);
-    playChanBtn.addEventListener('click', () => {
-        channels[currentChannelNum].play();
+    playChanBtn.addEventListener('click', async () => {
+        isPlaying = true;
+        changeBtnState();
+        await channels[currentChannelNum].play();
+        isPlaying = false;
+        changeBtnState();
     });
     playAllBtn.addEventListener('click', () => {
         playAllChannels();
@@ -104,14 +108,14 @@ function recordEvent() {
 
 function changeBtnState() {
     //hide or show 'rec' btn
-    // if (isPlaying) {
-    //     recBtn.classList.add('hide');
-    // } else {
-    //     recBtn.classList.remove('hide');
-    // }
+    if (isPlaying) {
+        recBtn.classList.add('hide');
+    } else {
+        recBtn.classList.remove('hide');
+    }
 
     //hide or show 'play channel' btn;
-    if (isRecording || channels[currentChannelNum].isChannelEmpty()) {
+    if (isRecording || isPlaying || channels[currentChannelNum].isChannelEmpty()) {
         // if (isRecording || isPlaying || channels[currentChannelNum].isChannelEmpty()) {
         playChanBtn.classList.add('hide');
     } else {
@@ -119,7 +123,7 @@ function changeBtnState() {
     }
 
     //hide or show 'play all channels' btn;
-    if (isRecording || areAllChannelsEmpty(channels)) {
+    if (isRecording || isPlaying || areAllChannelsEmpty(channels)) {
         // if (isRecording || isPlaying || areAllChannelsEmpty(channels)) {
         playAllBtn.classList.add('hide');
     } else {

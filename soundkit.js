@@ -116,8 +116,10 @@ function recordEvent() {
         if (channels[recChannelNum].isChannelEmpty()) { //user didn't clicked any keys
             // channels[recChannelNum].addSound(null, channels[recChannelNum].getTotalTime()); //add an empty interval without any sound
             channels[recChannelNum] = new Channel(recChannelNum); //clear channel
+            channels[recChannelNum].progressBar.value = 0; //clear progress bar
         } else { //user clicked 1 time or more
             channels[recChannelNum].calculateIntervals();
+            channels[recChannelNum].progressBar.value = 100;  //fill progress bar
         }
     }
     changeBtnState();
@@ -146,8 +148,6 @@ function changeBtnState() {
     } else {
         playAllBtn.classList.remove('hide');
     }
-    // console.log(`isplaying: ${isPlaying}, isRecording: ${isRecording}, areAllChannelsEmpty: ${areAllChannelsEmpty(channels)}`);
-    // debugger;
 }
 
 document.addEventListener('DOMContentLoaded', appStart);

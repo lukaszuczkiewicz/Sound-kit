@@ -72,12 +72,7 @@ export class Channel {
                 this.sounds[i].element.currentTime = 0;
                 this.sounds[i].element.play();
             }
-            console.log('boom');
         }
-        console.log(this.sounds)
-        // await wait(this.sounds[this.sounds.length-1].interval);
-        // await wait(3000);
-        // console.log(this.sounds[this.sounds.length-1].interval);
     }
 }
 

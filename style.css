@@ -82,5 +82,14 @@ a, :link, :visited {
   border: transparent;
   width: 7rem; }
 
+.progress::-webkit-progress-bar {
+  background-color: #c8ccca; }
+
+.progress::-webkit-progress-value {
+  background-color: #B8336A; }
+
+.progress::-moz-progress-bar {
+  background-color: #c8ccca; }
+
 .hide {
   display: none; }

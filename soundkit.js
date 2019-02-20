@@ -27,16 +27,8 @@ let isPlaying = false;
 function appStart() { //enable buttons
     window.addEventListener('keypress', playSound);
     recBtn.addEventListener('click', recordEvent);
-    playChanBtn.addEventListener('click', async () => {
-        isPlaying = true;
-        changeBtnState();
-        await channels[currentChannelNum].play();
-        isPlaying = false;
-        changeBtnState();
-    });
-    playAllBtn.addEventListener('click', () => {
-        playAllChannels();
-    });
+    playChanBtn.addEventListener('click', playCurrentChannel);
+    playAllBtn.addEventListener('click', playAllChannels);
     document.querySelectorAll('.channels__radio').forEach(radio => {
         radio.addEventListener('change', () => {
             currentChannelNum = parseInt(radio.getAttribute("value") - 1);
@@ -44,21 +36,37 @@ function appStart() { //enable buttons
         });
     });
 }
+async function playCurrentChannel() {
+    isPlaying = true;
+    changeBtnState();
+    await channels[currentChannelNum].play();
+    isPlaying = false;
+    changeBtnState();
+}
+async function playAllNotCurrent() {
 
-function playAllNotCurrent() {
+    isPlaying = true;
+    changeBtnState(); 
+
+    const promises = [];
     channels.forEach((c, i) => {
-        if (currentChannelNum !== i && !c.isChannelEmpty()) {
-            c.play();
+        if (recChannelNum !== i && !c.isChannelEmpty()) {
+            promises.push(c.play());
         }
     });
+    Promise.all(promises)
+    .then(() => {
+        isPlaying = false;
+        changeBtnState();
+    })
 }
 
-function playAllChannels() {
+async function playAllChannels() {
     isPlaying = true;
     changeBtnState();
 
     const promises = []
-    channels.forEach((c, i) => {
+    channels.forEach((c) => {
         if (!c.isChannelEmpty()) {
             promises.push(c.play());
         }
@@ -117,7 +125,7 @@ function recordEvent() {
 
 function changeBtnState() {
     //hide or show 'rec' btn
-    if (isPlaying) {
+    if (isPlaying && !isRecording) {
         recBtn.classList.add('hide');
     } else {
         recBtn.classList.remove('hide');
@@ -138,6 +146,8 @@ function changeBtnState() {
     } else {
         playAllBtn.classList.remove('hide');
     }
+    console.log(`isplaying: ${isPlaying}, isRecording: ${isRecording}, areAllChannelsEmpty: ${areAllChannelsEmpty(channels)}`);
+    debugger;
 }
 
 document.addEventListener('DOMContentLoaded', appStart);

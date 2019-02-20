@@ -1,7 +1,13 @@
-export {msToSeconds, svg};
+export {msToSeconds, svg, wait};
 
 function msToSeconds(ms) {
     return (ms/1000).toFixed(2);
+}
+
+async function wait(ms) {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms);
+    });
 }
 
 const svg = {

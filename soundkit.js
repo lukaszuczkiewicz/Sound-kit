@@ -1,5 +1,10 @@
-import {Channel, areAllChannelsEmpty} from './Channel.js';
-import {svg} from './other.js';
+import {
+    Channel,
+    areAllChannelsEmpty
+} from './Channel.js';
+import {
+    svg
+} from './other.js';
 
 //create channels
 const channels = [
@@ -23,7 +28,7 @@ function appStart() { //enable buttons
     window.addEventListener('keypress', playSound);
     recBtn.addEventListener('click', recordEvent);
     playChanBtn.addEventListener('click', () => {
-        playChannel(currentChannelNum);  
+        channels[currentChannelNum].play();
     });
     playAllBtn.addEventListener('click', () => {
         playAllChannels();
@@ -37,16 +42,18 @@ function appStart() { //enable buttons
 }
 
 function playAllNotCurrent() {
-    channels.forEach((channel, i) => {
-        if (currentChannelNum !== i) {
-            playChannel(i);
+    channels.forEach((c, i) => {
+        if (currentChannelNum !== i && !c.isChannelEmpty()) {
+            c.play();
         }
     });
 }
 
 function playAllChannels() {
-    channels.forEach((channel, i) => {
-        playChannel(i);
+    channels.forEach((c, i) => {
+        if (!c.isChannelEmpty()) {
+            c.play();
+        }
     });
 }
 
@@ -58,68 +65,32 @@ function playSound(e) {
     //play sound
     audioDOM.currentTime = 0;
     audioDOM.play();
-    
+
     if (isRecording) {
         //add sound to the current channel
-        channels[currentChannelNum].addSound(audioDOM, Date.now());
-    }
-}
-
-function playChannel(channelNum) {
-    const c = channels[channelNum];
-    if (!c.isChannelEmpty()) {
-        
-        isPlaying = true;
-        // changeBtnState();
-        
-        c.animateProgressBar(); // turn on progress bar animation
-        
-        let i = 0; //loop iteration count
-        const max = c.sounds.length; //loop max literation count
-        
-        function timeout() {
-            setTimeout(() => {
-                //play the sound
-                if (c.sounds[i].element) 
-                {
-                    c.sounds[i].element.currentTime = 0;
-                    c.sounds[i].element.play();
-                }
-                i++;
-                
-                if (i >= max) { //there are no more sounds 
-                    isPlaying = false;
-                    // changeBtnState();
-                    return;
-                }
-                
-                timeout(); //recursion - ply next sound
-                
-            }, c.sounds[i].interval);
-        }
-        timeout();
+        channels[recChannelNum].addSound(audioDOM, Date.now()); //error if user changes channels while recording (check if fixed)
     }
 }
 
 function recordEvent() {
     //switch to recording/not recording
     isRecording = !isRecording;
-    
+
     if (isRecording) { //start recording
-        
+
         recChannelNum = currentChannelNum; //save index of the recording channel
 
         channels[recChannelNum] = new Channel(recChannelNum); //clear previous data on temporary channel           
         channels[recChannelNum].startRecTime = Date.now(); //save the starting time
         recBtn.innerHTML = svg.stop; //display stop rec img inside btn  
         playAllNotCurrent(); //play other channels in a background
-        
+
     } else { //stop recording
-        
+
         channels[recChannelNum].stopRecTime = Date.now(); //save the finishing time
         recBtn.innerHTML = svg.rec; //display start rec img inside btn                   
         channels[recChannelNum].displayTotalTime(); // display time length of the record
-        
+
         //save channel
         if (channels[recChannelNum].isChannelEmpty()) { //user didn't clicked any keys
             // channels[recChannelNum].addSound(null, channels[recChannelNum].getTotalTime()); //add an empty interval without any sound
@@ -128,7 +99,7 @@ function recordEvent() {
             channels[recChannelNum].calculateIntervals();
         }
     }
-    changeBtnState(); 
+    changeBtnState();
 }
 
 function changeBtnState() {
@@ -138,18 +109,18 @@ function changeBtnState() {
     // } else {
     //     recBtn.classList.remove('hide');
     // }
-    
+
     //hide or show 'play channel' btn;
     if (isRecording || channels[currentChannelNum].isChannelEmpty()) {
-    // if (isRecording || isPlaying || channels[currentChannelNum].isChannelEmpty()) {
+        // if (isRecording || isPlaying || channels[currentChannelNum].isChannelEmpty()) {
         playChanBtn.classList.add('hide');
     } else {
         playChanBtn.classList.remove('hide');
     }
-    
+
     //hide or show 'play all channels' btn;
     if (isRecording || areAllChannelsEmpty(channels)) {
-    // if (isRecording || isPlaying || areAllChannelsEmpty(channels)) {
+        // if (isRecording || isPlaying || areAllChannelsEmpty(channels)) {
         playAllBtn.classList.add('hide');
     } else {
         playAllBtn.classList.remove('hide');

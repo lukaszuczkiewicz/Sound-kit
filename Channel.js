@@ -1,5 +1,5 @@
 import Sound from './Sound.js';
-import { msToSeconds} from './other.js'
+import { msToSeconds, wait} from './other.js';
 
 export class Channel {
     constructor(number) {
@@ -42,10 +42,6 @@ export class Channel {
         const endInterval = this.stopRecTime - this.sounds[this.sounds.length - 1].time;
         this.addSound(null, endInterval);
     }
-
-    isChannelEmpty() {
-        return (!this.sounds.length);
-    }
     
     displayTotalTime() {
         const totalTimeEl = document.querySelector(`.channels__time--${this.number+1}`);
@@ -55,12 +51,26 @@ export class Channel {
             totalTimeEl.textContent = `${msToSeconds(this.getTotalTime())} s`;
         }
     }
-
+    
     getTotalTime() {
         return this.stopRecTime - this.startRecTime;
     }
-}
 
+    isChannelEmpty() {
+        return (!this.sounds.length);
+    }
+
+    async play() {
+        this.animateProgressBar();
+
+        for (let i = 0; i < this.sounds.length-1; i++) {
+            await wait(this.sounds[i].interval);
+            this.sounds[i].element.currentTime = 0;
+            this.sounds[i].element.play();
+        }
+        console.log('end');
+    }
+}
 
 export function areAllChannelsEmpty(channels) {
     let isEmpty = true; 
@@ -69,6 +79,5 @@ export function areAllChannelsEmpty(channels) {
             isEmpty = false;
         }
     });
-    // debugger;
     return isEmpty;
 }
